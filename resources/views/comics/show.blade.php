@@ -4,7 +4,15 @@
 @section('main-content')
 
     <div class="container">
+        
+        <a href="{{route('comics.index')}}" class="btn btn-success">
+            Torna alla lista
+        </a>
+        <a href="{{route('comics.edit', $comic)}}" class="btn btn-primary">
+            modifica
+        </a>
         <h1>{{ $comic->title }}</h1> 
+
         <div class="row g-4">
             
             
