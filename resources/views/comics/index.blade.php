@@ -54,18 +54,6 @@
                   </div>
                 </div>
                     
-                  {{-- <form action="{{route('comics.destroy', $comic)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    
-
-                    
-                      <button>
-
-                        <i class="fa-solid fa-trash fa-2xl text-danger"></i>
-                      </button>
-                    </div> 
-                  </form> --}}
                   
                   <p class="card-text">
                     <strong>Titolo:</strong> {{ $comic->title }}<br>

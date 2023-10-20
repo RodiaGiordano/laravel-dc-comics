@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Comic;
 
+use Illuminate\Support\Facades\Validator;
+
+
 class ComicController extends Controller
 {
     /**
@@ -37,7 +40,7 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $this->validation($request->all());
         $comic = new Comic();
         $comic->fill($data);
         $comic->save();
@@ -76,11 +79,11 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
-       $data = $request->all();
+        $data = $this->validation($request->all(), $comic->id);
 
        $comic->update($data);
        return redirect()->route('comics.show', $comic );
-
+       
     }
 
     /**
@@ -94,4 +97,43 @@ class ComicController extends Controller
         $comic->delete();
         return redirect()->route('comics.index');
     }
-}
+
+    private function validation($data) {
+        $validator = Validator::make(
+            $data,
+            [
+                'title' => 'required|string|max:50',
+                "description" => "nullable|string",
+                "thumb" => "nullable|string",
+                'price' => "required|string",
+                "series" => "required|string",
+                "sale_date" => "required|date",
+                "type" => "required|string",
+
+            ],
+            [
+                'title.required' => 'Il titolo è obbligatorio',
+                'title.string' => 'Il nome deve essere una stringa',
+                'title.max' => 'Il nome deve massimo di 50 caratteri',
+          
+                'description.string' => 'La descrizione deve essereuna stringa',
+
+                'thumb.string' => 'L\'url dell\'immagine deve essere una stringa',
+          
+                'price.required' => 'Il prezzo è obbligatorio',
+          
+                'series.required' => 'è obbligatorio',
+                'series.string' => 'deve essere una stringa',
+          
+                'salde_date.date' => 'deve essere una data',
+                'sale_date.required' => 'è obbligatorio',
+          
+
+                'type.required' => 'è obbligatorio',
+                'type.string' => 'deve essere una stringa',
+            ],
+          )->validate();
+          return $validator;
+        }
+    
+};
